@@ -40,7 +40,41 @@ python3 cors_scanner.py --url http://api.example.com/data --poc --server --port 
 
 # JSON output
 python3 cors_scanner.py --url http://api.example.com/data --json
+
+# Offline demo (vulnerable + clean control simulators, no network)
+python3 cors_scanner.py --demo       # or run with no arguments
+
+# Run the offline test suite
+python3 -m unittest discover -s tests
 ```
+
+## Live Lab Test Plan
+
+Run against a local lab target only (loopback or a VM you own):
+
+1. `python3 cors_scanner.py --demo` — verify the engine detects arbitrary-
+   origin reflection, credentialed cross-origin reads, and preflight abuse on
+   the vulnerable simulator, and reports zero findings on the clean control
+   (both exit 0).
+2. Start a knowingly-misconfigured endpoint locally (e.g. a reverse proxy or
+   API that reflects the `Origin` header with `Access-Control-Allow-Credentials:
+   true`) and run `python3 cors_scanner.py --url http://127.0.0.1:<port>/data --report`.
+3. Confirm a positive on the misconfigured endpoint and a negative on a
+   properly-hardened one (no `ACAO`/`ACAC` emission, `Vary: Origin` present).
+   Never point this at systems you do not own.
+4. `python3 -m unittest discover -s tests` — full offline suite must pass.
+
+## Metrics
+
+- Demo wall time: < 25 s (two loopback simulators; header analysis, origin
+  reflection, credentialed requests, and preflight phases each exercised).
+- Header normalization: response headers lowercased at the transport boundary
+  so case-insensitive lookups are correct (fixes a latent original bug).
+- Test suite: 9 deterministic offline tests (`python3 -m unittest`), no network
+  access required.
+- Code paths exercised: `CORSAnalyzer`, `CORSOriginReflector`,
+  `CORSCredentialTester`, `CORSPreflightTester`, `CORSScanner.scan`, and both
+  simulator handlers, all via urllib over loopback.
 
 ## Legal Disclaimer
 
