@@ -6,7 +6,10 @@
 
 # WEB9 — CORS Misconfiguration Scanner
 
-CORS header analysis, origin reflection testing, preflight abuse, and credential theft PoC.
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+
+CORS header analysis, origin reflection testing, preflight abuse, and credential theft PoC for authorized web security assessments.
 
 ## Overview
 
@@ -122,4 +125,14 @@ If you discover vulnerabilities using this tool, follow responsible disclosure p
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE). Educational and authorized testing use only.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+Report security issues via [SECURITY.md](SECURITY.md).
+
+## Documentation
+
+- [ETHICS.md](ETHICS.md) — usage policy
+- [SCOPE.md](SCOPE.md) — authorized testing scope
